@@ -8,6 +8,7 @@
 #include "hardware/gpio.h"
 #include "hardware/spi.h"
 #include "pinconfig.h"
+
 /* This file is to tune the main ESP-Hosted configurations.
  * In case you are not sure of some value, Let it be default.
  **/
@@ -42,7 +43,11 @@ enum
 //  #define CONFIG_SLAVE_CHIPSET_ESP32C2 1
 //  #define CONFIG_SLAVE_CHIPSET_ESP32C3 1
 //  #define CONFIG_SLAVE_CHIPSET_ESP32C5 1
-#define CONFIG_SLAVE_CHIPSET_ESP32C6 1
+#ifdef CONFIG_IDF_TARGET_ESP32C6
+  #define CONFIG_SLAVE_CHIPSET_ESP32C6 1
+#else
+  #error "Only ESP32C6 is supported"
+#endif
 // #define CONFIG_SLAVE_CHIPSET_ESP32S2 1
 // #define CONFIG_SLAVE_CHIPSET_ESP32S3 1
 
@@ -83,6 +88,7 @@ enum
 #define GPIO_CLK_Pin PIN_SPI_CLK
 
 //questi valori vanno definiti con i valori usatin nello slave
+
 #define H_SPI_MODE                                   SPI_CPHA_0
 #define H_SPI_INIT_CLK_MHZ                           5000000
 

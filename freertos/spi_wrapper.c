@@ -7,7 +7,28 @@
 #include "hardware/spi.h"
 #include "hardware/gpio.h"
 #include "hardware/dma.h"
+// esp idf config header filde for the slave chipset
+#include "sdkconfig.h"
+// set the SPI mode based on the slave configuration
+#ifndef CONFIG_ESP_SPI_MODE
+#error "CONFIG_ESP_SPI_MODE is not defined"
+#endif
 
+#if CONFIG_ESP_SPI_MODE == 0
+#define SPICPOL SPI_CPOL_0
+#define SPICPHA SPI_CPHA_0
+#elif CONFIG_ESP_SPI_MODE == 1
+#define SPICPOL SPI_CPOL_0
+#define SPICPHA SPI_CPHA_1
+#elif CONFIG_ESP_SPI_MODE == 2
+#define SPICPOL SPI_CPOL_1
+#define SPICPHA SPI_CPHA_0
+#elif CONFIG_ESP_SPI_MODE == 3
+#define SPICPOL SPI_CPOL_1
+#define SPICPHA SPI_CPHA_1
+#else
+#error "only SPI mode 0, 1, 2, 3 are supported"
+#endif
 #define SPI_PORT spi0
 
 static inline void cs_select()
@@ -50,7 +71,7 @@ void *hosted_spi_init(void)
     gpio_init(PIN_SPI_CS);
     gpio_set_function(PIN_SPI_MISO, GPIO_FUNC_SPI);
     gpio_set_function(PIN_SPI_MOSI, GPIO_FUNC_SPI);
-    spi_set_format(SPI_PORT, 8, SPI_CPOL_0, SPI_CPHA_0, SPI_MSB_FIRST);
+    spi_set_format(SPI_PORT, 8, SPICPOL, SPICPHA, SPI_MSB_FIRST);
 
 #if SPI_DMA
     dma_tx = dma_claim_unused_channel(true);

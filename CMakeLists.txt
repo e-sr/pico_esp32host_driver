@@ -2,70 +2,71 @@
 project(pico_esp32host_driver)
 # Pull in PICO SDK (must be before project)
 
-set(PICO_ESP32HOST_DRIVER_PATH /home/enzo/Documents/embedded/Raspberry/esp32_host/submodules/esp-hosted/esp-hosted-stm32-spi-prerelease)
-set(PICO_ESP32HOST_DRIVER_HOST_PATH ${PICO_ESP32HOST_DRIVER_PATH}/host)
-set(PICO_ESP32HOST_DRIVER_HOST_EXTRA_PATH ${PICO_ESP32HOST_DRIVER_PATH}/host/extra_components)
+set(ESP_HOSTED_MCU_PATH esp_submodules/esp-hosted-mcu)
+set(ESP_HOSTED_MCU_HOST_PATH ${ESP_HOSTED_MCU_PATH}/host)
+set(ESP_HOSTED_MCU_EXTRA_PATH esp_submodules/extra_components)
 
 # base driver without spi,or... bus
 pico_add_library(pico_esp32host_driver_base NOFLAG)
 
 target_sources(pico_esp32host_driver_base
     INTERFACE
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/esp_hosted_host_init.c"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/api/src/esp_wifi_weak.c"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/api/src/esp_hosted_api.c"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/utils/common.c"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/utils/util.c"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/utils/stats.c"
+    "${ESP_HOSTED_MCU_HOST_PATH}/esp_hosted_host_init.c"
+    "${ESP_HOSTED_MCU_HOST_PATH}/api/src/esp_wifi_weak.c"
+    "${ESP_HOSTED_MCU_HOST_PATH}/api/src/esp_hosted_api.c"
+    "${ESP_HOSTED_MCU_HOST_PATH}/utils/common.c"
+    "${ESP_HOSTED_MCU_HOST_PATH}/utils/util.c"
+    "${ESP_HOSTED_MCU_HOST_PATH}/utils/stats.c"
     #rpc files
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/drivers/rpc/core/rpc_core.c"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/drivers/rpc/core/rpc_req.c"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/drivers/rpc/core/rpc_rsp.c"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/drivers/rpc/core/rpc_evt.c"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/drivers/rpc/slaveif/rpc_slave_if.c"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/drivers/rpc/wrap/rpc_wrap.c"
+    "${ESP_HOSTED_MCU_HOST_PATH}/drivers/rpc/core/rpc_core.c"
+    "${ESP_HOSTED_MCU_HOST_PATH}/drivers/rpc/core/rpc_req.c"
+    "${ESP_HOSTED_MCU_HOST_PATH}/drivers/rpc/core/rpc_rsp.c"
+    "${ESP_HOSTED_MCU_HOST_PATH}/drivers/rpc/core/rpc_evt.c"
+    "${ESP_HOSTED_MCU_HOST_PATH}/drivers/rpc/slaveif/rpc_slave_if.c"
+    "${ESP_HOSTED_MCU_HOST_PATH}/drivers/rpc/wrap/rpc_wrap.c"
     #transport files
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/drivers/transport/spi/spi_drv.c"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/drivers/transport/transport_drv.c"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/drivers/bt/hci_stub_drv.c"
-    # "${PICO_ESP32HOST_DRIVER_PATH}/drivers/serial/serial_ll_if.c"
-    # "${PICO_ESP32HOST_DRIVER_PATH}/drivers/serial/serial_drv.c"
+    "${ESP_HOSTED_MCU_HOST_PATH}/drivers/transport/spi/spi_drv.c"
+    "${ESP_HOSTED_MCU_HOST_PATH}/drivers/transport/transport_drv.c"
+    "${ESP_HOSTED_MCU_HOST_PATH}/drivers/bt/hci_stub_drv.c"
+    # "${ESP_HOSTED_MCU_PATH}/drivers/serial/serial_ll_if.c"
+    # "${ESP_HOSTED_MCU_PATH}/drivers/serial/serial_drv.c"
     #slave and host common files
-    "${PICO_ESP32HOST_DRIVER_PATH}/common/protobuf-c/protobuf-c.c"
-    "${PICO_ESP32HOST_DRIVER_PATH}/common/proto/esp_hosted_rpc.pb-c.c"
+    "${ESP_HOSTED_MCU_PATH}/common/protobuf-c/protobuf-c.c"
+    "${ESP_HOSTED_MCU_PATH}/common/proto/esp_hosted_rpc.pb-c.c"
     # extra components
-    "${PICO_ESP32HOST_DRIVER_HOST_EXTRA_PATH}/mempool/mempool.c"
+    "${ESP_HOSTED_MCU_EXTRA_PATH}/mempool/mempool.c"
 )
 
 target_include_directories(pico_esp32host_driver_base_headers SYSTEM INTERFACE
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/api"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/api/include"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/utils"
+    "${ESP_HOSTED_MCU_HOST_PATH}"
+    "${ESP_HOSTED_MCU_HOST_PATH}/api"
+    "${ESP_HOSTED_MCU_HOST_PATH}/api/include"
+    "${ESP_HOSTED_MCU_HOST_PATH}/utils"
     #rpc
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/drivers/rpc/core"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/drivers/rpc/slaveif"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/drivers/rpc/wrap"
+    "${ESP_HOSTED_MCU_HOST_PATH}/drivers/rpc/core"
+    "${ESP_HOSTED_MCU_HOST_PATH}/drivers/rpc/slaveif"
+    "${ESP_HOSTED_MCU_HOST_PATH}/drivers/rpc/wrap"
     # transport
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/drivers/transport"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/drivers/transport/spi"
-    "${PICO_ESP32HOST_DRIVER_HOST_PATH}/drivers/bt/"
-    #"${PICO_ESP32HOST_DRIVER_PATH}/drivers/transport/sdio"
-    #"${PICO_ESP32HOST_DRIVER_PATH}/drivers/serial"
+    "${ESP_HOSTED_MCU_HOST_PATH}/drivers/transport"
+    "${ESP_HOSTED_MCU_HOST_PATH}/drivers/transport/spi"
+    "${ESP_HOSTED_MCU_HOST_PATH}/drivers/bt/"
+    #"${ESP_HOSTED_MCU_PATH}/drivers/transport/sdio"
+    #"${ESP_HOSTED_MCU_PATH}/drivers/serial"
     #slave and host common files
-    "${PICO_ESP32HOST_DRIVER_PATH}/common/include"
-    "${PICO_ESP32HOST_DRIVER_PATH}/common"
-    "${PICO_ESP32HOST_DRIVER_PATH}/common/proto"
+    "${ESP_HOSTED_MCU_PATH}/common/include"
+    "${ESP_HOSTED_MCU_PATH}/common"
+    "${ESP_HOSTED_MCU_PATH}/common/proto"
     # extra components
-    "${PICO_ESP32HOST_DRIVER_HOST_EXTRA_PATH}/mempool"
-    "${PICO_ESP32HOST_DRIVER_HOST_EXTRA_PATH}/esp_system" #for esp_task.h
-    "${PICO_ESP32HOST_DRIVER_HOST_EXTRA_PATH}/utils"
-    "${PICO_ESP32HOST_DRIVER_HOST_EXTRA_PATH}/esp_event/include"
-    "${PICO_ESP32HOST_DRIVER_HOST_EXTRA_PATH}/esp_wifi/include"
-    "${PICO_ESP32HOST_DRIVER_HOST_EXTRA_PATH}/esp_wifi_remote/include"
-    "${PICO_ESP32HOST_DRIVER_HOST_EXTRA_PATH}/esp_netif/include"
-    "${PICO_ESP32HOST_DRIVER_HOST_EXTRA_PATH}/log"
-
+    "${ESP_HOSTED_MCU_EXTRA_PATH}/mempool"
+    "${ESP_HOSTED_MCU_EXTRA_PATH}/esp_system" #for esp_task.h
+    "${ESP_HOSTED_MCU_EXTRA_PATH}/utils"
+    "${ESP_HOSTED_MCU_EXTRA_PATH}/esp_event/include"
+    "${ESP_HOSTED_MCU_EXTRA_PATH}/esp_wifi/include"
+    "${ESP_HOSTED_MCU_EXTRA_PATH}/esp_wifi_remote/include"
+    "${ESP_HOSTED_MCU_EXTRA_PATH}/esp_netif/include"
+    "${ESP_HOSTED_MCU_EXTRA_PATH}/log"
+    #slave sdkconfig
+    "${ESP_HOSTED_MCU_PATH}/slave/build/config/sdkconfig.h"
 )
 
 
@@ -77,7 +78,7 @@ target_sources(pico_esp32host_freertos_driver
     "${CMAKE_CURRENT_LIST_DIR}/freertos/esp_hosted_config.c"
 )
 
-#add_subdirectory(${PICO_ESP32HOST_DRIVER_PATH} esp-hosted)
+#add_subdirectory(${ESP_HOSTED_MCU_PATH} esp-hosted)
 
 target_include_directories(pico_esp32host_freertos_driver SYSTEM INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}/freertos/platform_include
