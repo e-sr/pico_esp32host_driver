@@ -1,0 +1,3 @@
+[submodule "esp_submodules/esp-hosted-mcu"]
+	path = esp_submodules/esp-hosted-mcu
+	url = https://github.com/espressif/esp-hosted-mcu.git
